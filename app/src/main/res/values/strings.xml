@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Weather App</string>
+    <string name="title_string">No Internet!</string>
+    <string name="title_string1">Quit</string>
+    <string name="title_message">Your app is not connected with active internet connection </string>
+    <string name="title_message1">Do you want to quit?</string>
+</resources>
