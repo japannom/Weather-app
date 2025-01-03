@@ -22,6 +22,18 @@ public class WeatherRVAdapter extends RecyclerView.Adapter<WeatherRVAdapter.View
     private Context context;
     private ArrayList<WeatherRVModel> weatherRVModelArrayList;
 
+    // Add interface at top of WeatherRVAdapter class
+    public interface OnItemClickListener {
+        void onItemClick(WeatherRVModel model);
+    }
+
+    // Add field in adapter
+    private OnItemClickListener listener;
+
+    // Add setter method
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
 
     public WeatherRVAdapter(Context context, ArrayList<WeatherRVModel> weatherRVModelArrayList ) {
         this.context = context;
@@ -69,6 +81,12 @@ public class WeatherRVAdapter extends RecyclerView.Adapter<WeatherRVAdapter.View
             temperatureTV = itemView.findViewById(R.id.idTVTemperature);
             timeTV = itemView.findViewById(R.id.idTVTime);
             conditionIV = itemView.findViewById(R.id.idIVCondition);
+
+            itemView.setOnClickListener(v -> {
+                if (listener != null && getAdapterPosition() != RecyclerView.NO_POSITION) {
+                    listener.onItemClick(weatherRVModelArrayList.get(getAdapterPosition()));
+                }
+            });
         }
     }
 }

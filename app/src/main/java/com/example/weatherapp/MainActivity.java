@@ -189,6 +189,28 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+// xử lý chọn
+        weatherRVAdapter.setOnItemClickListener(model -> {
+            // Update ConstraintLayout views with model data
+            temperatureTV.setText(model.getTemperature() + "°c");
+            humidityTV.setText(humidity + "%");
+            real_feelTV.setText(model.getTemperature() + "°c");
+            wind_speedTV.setText(model.getWindSpeed());
+
+            // Update weather condition icon
+            Picasso.get().load("http:".concat(model.getIcon())).into(iconIV);
+
+            // Show the time of selected forecast
+            String time = model.getTime();
+            SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+            SimpleDateFormat output = new SimpleDateFormat("hh:mm aa");
+            try {
+                Date t = input.parse(time);
+                conditionTV.setText(output.format(t));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private boolean isLocationEnabled() {
@@ -332,13 +354,13 @@ public class MainActivity extends AppCompatActivity {
 
     //method to get weather information of a specific city that user searched for
     private void getWeatherInfo(String cityName) {
-        String api_key= "e886beb8385444bba8f175003242911";
+        String api_key= "9cfc41ac26cd4eebb7b133930250301";
         //Replace Credentials.api_key with your own api key
         //To get your api key go to https://www.weatherapi.com/ and signup
         //after successful signup they will provide your an api key
 //        String url = "http://api.weatherapi.com/v1/forecast.json?key= "+Credentials.api_key+"&q=" + cityName + "&days=1&aqi=yes&alerts=yes";
         String url = "http://api.weatherapi.com/v1/forecast.json?key= "+api_key +"&q=" + cityName + "&days=1&aqi=yes&alerts=yes";
-
+        // xử lý main
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -382,7 +404,7 @@ public class MainActivity extends AppCompatActivity {
                         Picasso.get().load("https://images.pexels.com/photos/2086748/pexels-photo-2086748.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1").into(backIV);
                     } else {
                         ///night
-                         Picasso.get().load("https://images.pexels.com/photos/36487/above-adventure-aerial-air.jpg").into(backIV);
+                        Picasso.get().load("https://images.pexels.com/photos/36487/above-adventure-aerial-air.jpg").into(backIV);
                     }
 
                     JSONObject forecastObj = response.getJSONObject("forecast");
